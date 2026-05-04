@@ -1,100 +1,48 @@
-'''
-Create a terminal-based contact book tool that stores and manages contacts using a CSV file
+"""
+ Challenge: Self-Intro Script Generator
 
-Your Program should:
-1. Ask the user to choose one of the following options:
-    - Add a new contact
-    - View all contacts
-    - Search for a contact by name
-    - Exit
-2. Store contacts in a file called `contacts.csv` with columns:
-    - Name
-    - Phone
-    - Email
-3. If the file doesn't exist, create it autometically
-4. Keep the interfacr clean and clear
+Create a Python script that interacts with the user and generates a personalized self-introduction.
 
-'''
+Your program should:
+1. Ask the user for their name, age, city, profession, and favorite hobby.
+2. Format this data into a warm, friendly paragraph of self-introduction.
+3. Print the final paragraph in a clean and readable format.
 
-import csv
-import os
+Example:
+If the user inputs:
+  Name: Priya
+  Age: 22
+  City: Jaipur
+  Profession: Software Developer
+  Hobby: playing guitar
 
-FILENAME = "contacts.csv"
+Your script might output:
+  "Hello! My name is Priya. I'm 22 years old and live in Jaipur. I work as a Software Developer and I absolutely enjoy playing guitar in my free time. Nice to meet you!"
 
-if not os.path.exists(FILENAME):
-    with open(FILENAME, "w", newline="", encoding="utf-8") as f:
-        writer = csv.writer(f)
-        writer.writerow(["Name", "Phone", "Email"])
+Bonus:
+- Add the current date to the end of the paragraph like: "Logged on: 2025-06-14"
+- Wrap the printed message with a decorative border of stars (*)
+"""
+import datetime
 
-def add_contact():
-    name = input("Name: ").strip()
-    phone = input("Phone: ").strip()
-    email = input("Email: ").strip()
+name = input("What is your name ? ").strip()
+age = input("How old are you ? ").strip()
+city = input("Which city do you live in? ").strip()
+profession = input("What is your profession? ").strip()
+hobby = input("WHat is your favourite hobby? ").strip()
 
-    # check for duplicates
-    with open(FILENAME, "r", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            if row["Name"].lower() == name.lower():
-                print("Contact name already exists.")
-                return 
-            
-    with open(FILENAME, "a", newline="", encoding="utf-8") as f:
-        writer = csv.writer(f)
-        writer.writerow([name, phone, email])
-        print("Contact Added.")
-
-def view_contacts():
-    with open(FILENAME, "r", encoding="utf-8") as f:
-        reader = csv.reader(f)
-        rows = list(reader)
-
-        if len(rows) < 1:
-            print("No contacts found")
-            return
-
-        print("\n Your contacts: \n")
-
-        for row in rows[1:]:
-            print(f"{row[0]} | {row[1]} | {row[2]}")
-        print()
-
-def search_contact():
-    term = input("Enter the name to search: ").strip().lower()
-    found = False
-
-    with open(FILENAME, "r", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            if term in row["Name"].lower():
-                print(f"{row['Name']} | {row['Phone']} | {row['Email']}")
-                found = True
-
-    if not found:
-        print("No matching contact found.")
-
-def main():
-    while True:
-        print("\n Contact Book")
-        print("1. Add Contact")
-        print("2. View all contacts")
-        print("3. Search for a contact")
-        print("4. Exit")
-
-        choice = input("Choose an option (1-4)").strip()
-
-        if choice == "1":
-            add_contact()
-        elif choice == "2":
-            view_contacts()
-        elif choice == "3":
-            search_contact()
-        elif choice == "4":
-            print("Thanks for using our software")
-            break
-        else:
-            print("Invalid Choice of number.")
+intro_message = (
+    f"Hello! my name is {name}, I'm {age} years old and live in {city}. "
+    f"I work as a {profession} and I absolutely enjoy {hobby} in my free time. "
+    f"Nice to meet you!\n"
+)
 
 
-if __name__ == "__main__":
-    main()
+current_date = datetime.date.today().isoformat()
+intro_message += f"\n Logged on: {current_date}"
+
+
+border = "*" * 80
+final_output = f"{border}\n{intro_message}\n{border}"
+
+print("\n" + final_output)
