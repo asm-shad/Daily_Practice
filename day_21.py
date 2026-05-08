@@ -72,7 +72,6 @@ def list_notes():
     for i, note in enumerate(data, 1):
         print(f"{i}. {note['title']} {note['timestamp']}")
         
-
 def view_note():
     list_notes()
     try:
