@@ -19,9 +19,7 @@ df = pd.read_csv("books.csv")
 
 vectorizer = TfidfVectorizer(stop_words='english')
 tfidf_matrix = vectorizer.fit_transform(df['description'])
-
 cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
-
 indices = pd.Series(df.index, index=df['title'])
 
 def get_recommendations(title, cosine_sim=cosine_sim):
